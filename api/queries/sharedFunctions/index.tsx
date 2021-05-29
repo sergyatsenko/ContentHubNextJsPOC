@@ -1,4 +1,4 @@
-import { productI, assetI, productCategoryI, riverI, itineraryI } from '@/interfaces/index';
+import { productI, assetI, riverI, itineraryI } from '@/interfaces/index';
 import {
   IntentTagVector,
   IntentTags,
@@ -21,25 +21,31 @@ export const convertIntents = (value: string[]): IntentTags | undefined => {
 };
 
 export function riverItinerariesParse(riverFeed): riverI[] {
-  const riverArray: riverI[] = [];
-  riverArray.pop();
+  const riversArray: riverI[] = [];
+  riversArray.pop();
+  //console.log('---results here----');
+  //console.log(riverFeed.data.allSY_River.results);
 
-//console.log(riverFeed.data.allSY_River.results);
-  riverFeed.data.allSY_River.results.map((c) => {
-    const itineraryArray: itineraryI[] = [];
-    itineraryArray.pop();
+  riverFeed.data.allSY_River.results.map((r) => {
+    const itinerariesArray: itineraryI[] = [];
+    itinerariesArray.pop();
+    //console.log(r);
 
-    c.itineraryToRivers.results.map((p) => {
+    r.itineraryToRivers.results.map((i) => {
       const assetArray: assetI[] = [];
       assetArray.pop();
-      p.itineraryToAssets.results.map((pa) => {
+      i.itineraryToAssets.results.map((pa) => {    
         pa.assetToPublicLink.results.map((publicLink) => {
           if (assetArray.length < 1) {
+            //console.log('----base env URL----');
+            //console.log(process.env.CH_BASE_URL);
+            var baseAssetUrl = 'https://xcdemo4.stylelabsdemo.com/api/public/content/';
             const asset: assetI = {
               relativeUrl: publicLink.relativeUrl,
               versionHash: publicLink.versionHash,
               url:
-                process.env.CH_BASE_URL +
+                //process.env.CH_BASE_URL +
+                baseAssetUrl +
                 publicLink.relativeUrl +
                 '?' +
                 publicLink.versionHash,
@@ -48,28 +54,31 @@ export function riverItinerariesParse(riverFeed): riverI[] {
           }
         });
       });
-
+      //console.log('---one river---');
       const itinerary: itineraryI = {
-        name: p.name['en-US'],
-        description: p.description['en-US'],
+        name: i.name['en-US'],
+        description: i.description['en-US'],
         assets: assetArray,
       };
+      itinerariesArray.push(itinerary);
 
-      itineraryArray.push(itinerary);
+      
     });
 
     const river: riverI = {
       //id: c.id,
-      name: c.taxonomyName,
-      label: c.taxonomyLabel['en-US'],
-      itineraries: itineraryArray
+      name: r.taxonomyName,
+      label: r.taxonomyLabel['en-US'],
+      itineraries: itinerariesArray
       // type: 'productFamily',
       // intentTag: {
       //   intents: i,
       // },
       // slug: c.slug,
     };
-    riverArray.push(river);
+    //riversArray.push(river);
+    riversArray.push(river);
+
     // var intent = c.name.toLowerCase();
     // intent = intent.replace(/ /g, '');
 
@@ -78,7 +87,7 @@ export function riverItinerariesParse(riverFeed): riverI[] {
     // };
   });
 
-  return riverArray;
+  return riversArray;
 };
 
 export function productsParse(productFeed): productI[] {

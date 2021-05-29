@@ -14,7 +14,7 @@ export default function Home(props: dataI) {
     <div className="container mx-auto px-5">
       <Head>
         <title>
-          The Sitecore Experience Edge for Content Hub - Content as a Service!
+          The Sitecore Experience Edge for Content Hub - Listing Page!
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>

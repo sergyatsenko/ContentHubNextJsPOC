@@ -16,7 +16,7 @@ export interface assetI {
 export interface dataI {
   rivers: riverI[];
   preview: boolean;
-  slug: string;
+  name: string;
 }
 
 export interface productDataI {
@@ -24,14 +24,14 @@ export interface productDataI {
   preview: boolean;
 }
 
-export interface productCategoryI {
-  type?: string;
-  intentTag: IntentTags | undefined | null;
-  id: string;
-  productFamilyName: string;
-  products: productI[];
-  //slug: string;
-}
+// export interface productCategoryI {
+//   type?: string;
+//   intentTag: IntentTags | undefined | null;
+//   id: string;
+//   productFamilyName: string;
+//   products: productI[];
+//   //slug: string;
+// }
 
 export interface riverI {
   name: string;

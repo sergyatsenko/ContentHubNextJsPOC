@@ -3,16 +3,16 @@ import Link from 'next/link';
 
 type Props = {
   preview: boolean;
-  slug: string;
+  name: string;
 };
 
-const Footer = ({ preview, slug }: Props) => {
+const Footer = ({ preview, name }: Props) => {
   return (
     <footer className="bg-accent-1 border-t border-accent-2">
       <div className="container mx-auto px-5">
         <div className="flex flex-col lg:flex-row items-center">
           <h2 className="tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2">
-            Statically Generated with Next.js.
+            Statically Generated with Next.js. {preview}
           </h2>
           {/* <div className="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-1/2">
             <a
@@ -37,7 +37,7 @@ const Footer = ({ preview, slug }: Props) => {
             <a className="font-bold btn">Exit Preview Mode</a>
           </Link>
         ) : (
-          <Link href={`/api/preview?slug=${encodeURIComponent(slug)}`}>
+          <Link href={`/api/preview?slug=${encodeURIComponent(name)}`}>
             <a className="font-bold btn btn-success">Enter Preview Mode</a>
           </Link>
         )}
